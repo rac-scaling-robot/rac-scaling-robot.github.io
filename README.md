@@ -1,6 +1,6 @@
-# SERL: A Software Suite for Sample-Efficient Robotic Reinforcement Learning
+# RaC: Robot Learning for Long-Horizon Tasks by Scaling Recovery and Correction
 
-This is the repository that contains source code for the [SERL website](https://serl-robot.github.io).
+This is the repository that contains source code for the [RaC website](https://rac-scaling-robot.github.io).
 
 <!-- If you find Nerfies useful for your work please cite:
 ```
