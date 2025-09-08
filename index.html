@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="RaC: Robot Learning for Long-Horizon Tasks by Scaling Recovery and Correction">
+  <meta name="keywords" content="Imitation Learning, Robotic Manipulation, Long Horizon Manipulation, Scaling Law, Robot Learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RaC: Robot Learning for Long-Horizon Tasks by Scaling Recovery and Correction</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CR91FGL27V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-CR91FGL27V');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/rac_icon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="has-text-centered">
+            <h1 class="title is-1 publication-title ">
+              RaC: Robot Learning for Long-Horizon Tasks by Scaling <u>R</u>ecovery <u>a</u>nd <u>C</u>orrection
+            </h1>
+            <!-- <div class="subtitle is-3 publication-venue" style="margin-bottom: 5px;">
+              <h2 style="font-weight: bolder">ICRA 2024</h2>
+            </div> -->
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://huzheyuan.io">Zheyuan Hu</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/robynwuprofile/">Robyn Wu</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/naveen-enock/">Naveen Enock</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/jasmine-jiani-li/">Jasmine Li</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/riyakadakia/">Riya Kadakia</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://zackory.com/">Zackory Erickson</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://aviralkumar2907.github.io/">Aviral Kumar</a><sup>1</sup>
+              </span>
+            </div>
+
+            <div class="is-size-6 publication-authors">
+              <span class="author-block"><sup>1</sup>Carnegie Mellon University</span>;
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2401.16013"
+                      class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Video Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://youtu.be/Um4CjBmHdcw" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                    </span>
+                    <span>Video</span>
+                  </a>
+                </span> -->
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="./"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code (Coming Soon)</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+            <div class="content has-text-justified" style="margin-left: 20px; margin-right: 20px;">
+              <strong>RaC achieves more efficient performance scaling via a simple human-in-the-loop "mid-training" phase added after imitation pre-training.
+                It standardizes human intervention data collection protocols with two rules:</strong>
+              <ol style="margin-left: 20px;">
+                <li><strong>Upon intervention, operators first recover back to in-distribution states, then perform correction to complete the sub-task.</strong></li>
+                <li><strong>After intervention completes, operator terminates the episode to prevent further rollouts.</strong></li>
+              </ol>
+              <strong>Training on these recovery & correction rich segments teaches policies to reset, retry, and adapt, mitigating compounding errors in long-horizon, contact-rich tasks. 
+                On challenging real world bimanual tasks, RaC outperforms prior approaches with ~10x less data and shows test-time scaling—success rises with more recovery behaviors.</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align: center;">Recovery & Correction Improves Robustness to Failures</h2>
+
+      <h2 class="title is-4" style="text-align: center; margin-bottom: 5px;">Shirt Hanging</h2>
+      <div id="shirt-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/shirt_hanging/shirt_hang_0.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">The robot recovers from both right and left shoulder failures.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/shirt_hanging/shirt_hang_1.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">The robot recovers from both right and left shoulder failures.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/shirt_hanging/shirt_hang_2.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">The robot fixes left shoulder insertion and the final hanging.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/shirt_hanging/shirt_hang_3.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">The robot succeeds without making mistakes.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/shirt_hanging/shirt_hang_4.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">The robot recovers from left shoulder insertion failure.</div>
+        </div>
+      </div>
+
+      <h2 class="title is-4" style="text-align: center; margin-bottom: 5px;">Airtight Container Lid Sealing</h2>
+      <div id="lid-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/lid_sealing/lid_4.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">The robot consistently recovers from snapping failures.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/lid_sealing/lid_1.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">This example recovers from a tab snapping failure.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/lid_sealing/lid_2.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">This video shows reactive recovery from failed lid placement.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/lid_sealing/lid_3.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">The robot recovers from minor lid placement imperfection.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/lid_sealing/lid_0.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">The robot successfully seals the lid without making mistakes.</div>
+        </div>
+      </div>
+
+      <h2 class="title is-4" style="text-align: center; margin-bottom: 5px;">Clamshell Takeout Box Packing</h2>
+      <div id="lid-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/takeout_box_packing/burger_0.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">The robot detects failed attempt of the final stage, then recovers from it and correctly completes the task.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/takeout_box_packing/burger_1.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">The robot recovers from incorrectly grasping the spatula.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/takeout_box_packing/burger_2.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">The robot recovers from misaligned grasping spatula and securing tab failures.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/lid_sealing/lid_3.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">TODO: replace with new burger video 3.</div>
+        </div>
+        <div class="item">
+          <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/lid_sealing/lid_0.webm" poster="./resources/loading-icon.gif"></video>
+          <div class="caption">TODO: replace with new burger video 4.</div>
+        </div>
+      </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align: center;">Uncut Shirt Hanging Full Evaluation Recording (60 Trials, 2 Hours)</h2>
+      <div style="display: flex; justify-content: center; margin: 20px 0;">
+        <div style="position: relative; width: 100%; max-width: 1920px; height: 0; padding-bottom: 56.25%;">
+          <iframe
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+            src="https://www.youtube-nocookie.com/embed/G9-Fx9VfXSM?si=lTmHUOW6sQ0X1pZd"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+      <div class="container content">
+        <h2 class="title">BibTeX</h2>
+        <pre>
+          <code>
+            placeholder for now
+          </code>
+        </pre>
+      </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <a class="icon-link" href="./">
+          <i class="fas fa-file-pdf"></i>
+        </a>
+        <a class="icon-link" href="https://github.com/" class="external-link" disabled>
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This website was built off of <a href="https://github.com/nerfies/nerfies.github.io">nerfies</a> source
+              code
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
