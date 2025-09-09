@@ -76,3 +76,23 @@ $(document).ready(function() {
     bulmaSlider.attach();
 
 })
+
+// Function to toggle abstract expansion
+function toggleAbstract() {
+    const abstractFull = document.getElementById('abstractFull');
+    const toggleButton = document.querySelector('.abstract-toggle');
+    const toggleText = document.querySelector('.toggle-text');
+    const toggleIcon = document.querySelector('.toggle-icon');
+    
+    if (abstractFull.classList.contains('expanded')) {
+        // Collapse
+        abstractFull.classList.remove('expanded');
+        toggleButton.classList.remove('expanded');
+        toggleText.textContent = 'Read More';
+    } else {
+        // Expand
+        abstractFull.classList.add('expanded');
+        toggleButton.classList.add('expanded');
+        toggleText.textContent = 'Read Less';
+    }
+}

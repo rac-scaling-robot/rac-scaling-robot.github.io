@@ -108,17 +108,60 @@
               </div>
             </div>
             <div class="content has-text-justified" style="margin-left: 20px; margin-right: 20px;">
-              <strong>RaC achieves more efficient performance scaling via a simple human-in-the-loop "mid-training" phase added after imitation pre-training.
-                It standardizes human intervention data collection protocols with two rules:</strong>
-              <ol style="margin-left: 20px;">
-                <li><strong>Upon intervention, operators first recover back to in-distribution states, then perform correction to complete the sub-task.</strong></li>
-                <li><strong>After intervention completes, operator terminates the episode to prevent further rollouts.</strong></li>
-              </ol>
-              <strong>Training on these recovery & correction rich segments teaches policies to reset, retry, and adapt, mitigating compounding errors in long-horizon, contact-rich tasks. 
-                On challenging real world bimanual tasks, RaC outperforms prior approaches with ~10x less data and shows test-time scaling—success rises with more recovery behaviors.</strong>
+              <div class="abstract-container">
+                <div class="abstract-tldr">
+                  <strong>TL;DR: RaC achieves more efficient performance scaling via a simple human-in-the-loop "mid-training" phase added after imitation pre-training. 
+                  Training on recovery & correction rich segments teaches policies to reset, retry, and adapt, mitigating compounding errors in long-horizon, contact-rich tasks.</strong>
+                </div>
+                <button class="abstract-toggle button is-small is-outlined" onclick="toggleAbstract()">
+                  <span class="toggle-text">Click to Read More</span>
+                  <span class="icon">
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                  </span>
+                </button>
+                <div class="abstract-full" id="abstractFull">
+                  <div class="abstract-content">
+                    <p><strong>RaC standardizes human intervention data collection protocols with two rules:</strong></p>
+                    <ol style="margin-left: 20px;">
+                      <li><strong>Upon intervention, operators first recover back to in-distribution states, then perform correction to complete the sub-task.</strong></li>
+                      <li><strong>After intervention completes, operator terminates the episode to prevent further rollouts.</strong></li>
+                    </ol>
+                    <p><strong>On challenging real world bimanual tasks, RaC outperforms prior approaches with ~10x less data and shows test-time scaling—success rises with more recovery behaviors.</strong></p>
+                    <!-- Placeholder for future plot images -->
+                    <div class="abstract-plots" style="margin-top: 20px;">
+                      <!-- <img src="path/to/plot1.png" alt="Performance comparison plot" style="max-width: 100%; height: auto; margin: 10px 0;">
+                      <img src="path/to/plot2.png" alt="Scaling analysis plot" style="max-width: 100%; height: auto; margin: 10px 0;"> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align: center; margin-bottom: 10px;">RaC Data Collection Protocol</h2>
+      <div class="item">
+        <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/data_collection/full_demos_and_intervention_compressed.mp4" poster="./resources/loading-icon.gif">
+        </video>
+        <!-- <div class="caption">RaC data collection protocol.</div> -->
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-3" style="text-align: center; margin-bottom: 10px;">Learned Policies Comparison</h2>
+      <div class="item">
+        <video controls="" autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/comparison/twitter_comparison_compressed_2.mp4" poster="./resources/loading-icon.gif">
+        </video>
+        <!-- <div class="caption">RaC v.s. HG-DAgger v.s. Full Demos.</div> -->
       </div>
     </div>
   </section>
