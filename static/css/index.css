@@ -152,7 +152,7 @@ body {
 
 /* Data collection and comparison video styling */
 .section .item video {
-  max-width: 90%;
+  max-width: 95%;
   width: 100%;
   height: auto;
   display: block;
@@ -204,7 +204,7 @@ body {
 }
 
 .abstract-full.expanded {
-  max-height: 1000px; /* Adjust based on content */
+  max-height: none;
   transition: max-height 0.4s ease-in;
 }
 
@@ -223,11 +223,47 @@ body {
 
 .abstract-plots {
   text-align: center;
+  margin: 0; /* No left/right margins */
+  padding: 0 10px; /* Additional padding for very small screens */
 }
 
 .abstract-plots img {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  margin: 10px;
+  margin: 10px 0; /* Only vertical margin, horizontal alignment handled by container */
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive adjustments for very small screens */
+@media (max-width: 768px) {
+  .abstract-plots {
+    margin: 0; /* No margins on small screens */
+    padding: 0 5px;
+  }
+  
+  .abstract-plots img {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+.abstract-close-container {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.abstract-close {
+  transition: all 0.3s ease;
+}
+
+.abstract-close:hover {
+  transform: translateY(-1px);
 }
 

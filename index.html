@@ -23,13 +23,12 @@
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" href="./static/images/rac_icon.svg">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
@@ -78,7 +77,7 @@
             <div class="column has-text-centered">
               <div class="publication-links">
                 <span class="link-block">
-                  <a href="https://arxiv.org/"
+                  <a href="https://arxiv.org/abs/2509.07953"
                       class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                         <i class="ai ai-arxiv"></i>
@@ -88,7 +87,7 @@
                 </span>
                 <!-- Video Link. -->
                 <!-- <span class="link-block">
-                  <a href="https://youtu.be/Um4CjBmHdcw" class="external-link button is-normal is-rounded is-dark">
+                  <a href="https://youtu.be/" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fab fa-youtube"></i>
                     </span>
@@ -110,8 +109,10 @@
             <div class="content has-text-justified" style="margin-left: 20px; margin-right: 20px;">
               <div class="abstract-container">
                 <div class="abstract-tldr">
-                  <strong>TL;DR: RaC achieves more efficient performance scaling via a simple human-in-the-loop "mid-training" phase added after imitation pre-training. 
-                  Training on recovery & correction rich segments teaches policies to reset, retry, and adapt, mitigating compounding errors in long-horizon, contact-rich tasks.</strong>
+                  <strong>TL;DR: 
+                    RaC achieves efficient performance scaling via a "mid-training" phase added after imitation pre-training. 
+                    In this phase, RaC scales recovery & correction data via human intervention data collection. 
+                    Learning on diverse skills data enables policies to reset, retry, and adapt, mitigating compounding errors in long-horizon manipulation tasks.</strong>
                 </div>
                 <button class="abstract-toggle button is-small is-outlined" onclick="toggleAbstract()">
                   <span class="toggle-text">Click to Read More</span>
@@ -126,11 +127,26 @@
                       <li><strong>Upon intervention, operators first recover back to in-distribution states, then perform correction to complete the sub-task.</strong></li>
                       <li><strong>After intervention completes, operator terminates the episode to prevent further rollouts.</strong></li>
                     </ol>
-                    <p><strong>On challenging real world bimanual tasks, RaC outperforms prior approaches with ~10x less data and shows test-time scaling—success rises with more recovery behaviors.</strong></p>
-                    <!-- Placeholder for future plot images -->
-                    <div class="abstract-plots" style="margin-top: 20px;">
-                      <!-- <img src="path/to/plot1.png" alt="Performance comparison plot" style="max-width: 100%; height: auto; margin: 10px 0;">
-                      <img src="path/to/plot2.png" alt="Scaling analysis plot" style="max-width: 100%; height: auto; margin: 10px 0;"> -->
+                    <p><strong>On challenging real world long-horizon manipulation tasks, RaC achieves high success rates with efficient data sacling. 
+                      It outperforms prior human-in-the-loop method HG-DAgger and conventional batched full expert trajectories data collection.</strong></p>
+                    <div class="abstract-plots">
+                      <img src="./static/images/combined_2x4_summary_comparison.png" alt="Performance comparison plot">
+                    </div>
+                    <p><strong>Compared to previous SOTA results on similar shirt-hanging task, RaC outperforms prior approaches with ~10x less data.</strong></p>
+                    <div class="abstract-plots">
+                      <img src="./static/images/rac_table.png" alt="shirt-hanging comparison table">
+                    </div>
+                    <p><strong>During deployment, RaC exhibits test-time scaling characteristic — full task completion success rises with more recovery behaviors.</strong></p>
+                    <div class="abstract-plots" style="margin-bottom: 20px;">
+                      <img src="./static/images/combined_behaviors.png" alt="Test Time Scaling plot">
+                    </div>
+                    <div class="abstract-close-container">
+                      <button class="abstract-close button is-small is-outlined" onclick="toggleAbstract()">
+                        <span class="icon">
+                          <i class="fas fa-chevron-up"></i>
+                        </span>
+                        <span>Close</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -146,8 +162,8 @@
     <div class="container">
       <h2 class="title is-3" style="text-align: center; margin-bottom: 10px;">RaC Data Collection Protocol</h2>
       <div class="item">
-        <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/data_collection/full_demos_and_intervention_compressed.mp4" poster="./resources/loading-icon.gif">
+        <video autoplay="" loop="" muted="" playsinline=""
+            src="./static/videos/data_collection/full_demos_and_intervention_compressed.mp4">
         </video>
         <!-- <div class="caption">RaC data collection protocol.</div> -->
       </div>
@@ -156,50 +172,46 @@
 
   <section class="section">
     <div class="container">
-      <h2 class="title is-3" style="text-align: center; margin-bottom: 10px;">Learned Policies Comparison</h2>
-      <div class="item">
-        <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/comparison/twitter_comparison_compressed_2.mp4" poster="./resources/loading-icon.gif">
-        </video>
-        <!-- <div class="caption">RaC v.s. HG-DAgger v.s. Full Demos.</div> -->
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
       <h2 class="title is-3" style="text-align: center; margin-bottom: 10px;">Recovery & Correction Improves Robustness to Failures</h2>
-      <h2 class="title is-4" style="text-align: center; margin-bottom: 20px;">All Videos are autonomous policy rollouts recorded at 1x speed.</h2>
+      <h2 class="title is-5" style="text-align: center; margin-bottom: 20px;">All Videos are autonomous policy rollouts recorded at 1x speed.</h2>
+
+      <div class="item">
+        <h2 class="title is-4" style="text-align: center; margin-bottom: 10px;">Learned Policies Comparison</h2>
+        <video style="margin-bottom: 50px;" controls="" loop="" muted="" playsinline=""
+            src="./static/videos/comparison/twitter_comparison_compressed_2.mp4">
+        </video>
+      </div>
+
       <h2 class="title is-4" style="text-align: center; margin-bottom: 5px;">Shirt Hanging</h2>
       <div id="shirt-carousel" class="carousel results-carousel">
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/shirt_hanging/shirt_hang_5.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/shirt_hanging/shirt_hang_5.mp4" ></video>
           <div class="caption">The robot recovers from left shoulder insertion failures many times.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/shirt_hanging/shirt_hang_0.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/shirt_hanging/shirt_hang_0.mp4" ></video>
           <div class="caption">The robot recovers from both right and left shoulder failures.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/shirt_hanging/shirt_hang_1.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/shirt_hanging/shirt_hang_1.mp4" ></video>
           <div class="caption">The robot recovers from both right and left shoulder failures.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/shirt_hanging/shirt_hang_2.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/shirt_hanging/shirt_hang_2.mp4" ></video>
           <div class="caption">The robot fixes left shoulder insertion and the final hanging.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/shirt_hanging/shirt_hang_3.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/shirt_hanging/shirt_hang_3.mp4" ></video>
           <div class="caption">The robot succeeds without making mistakes.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/shirt_hanging/shirt_hang_4.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/shirt_hanging/shirt_hang_4.mp4" ></video>
           <div class="caption">The robot recovers from left shoulder insertion failure.</div>
         </div>
       </div>
@@ -208,27 +220,27 @@
       <div id="lid-carousel" class="carousel results-carousel">
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/lid_sealing/lid_4.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/lid_sealing/lid_4.mp4" ></video>
           <div class="caption">The robot consistently recovers from snapping failures.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/lid_sealing/lid_1.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/lid_sealing/lid_1.mp4" ></video>
           <div class="caption">This example recovers from a tab snapping failure.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/lid_sealing/lid_2.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/lid_sealing/lid_2.mp4" ></video>
           <div class="caption">This video shows reactive recovery from failed lid placement.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/lid_sealing/lid_3.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/lid_sealing/lid_3.mp4" ></video>
           <div class="caption">The robot recovers from minor lid placement imperfection.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/lid_sealing/lid_0.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/lid_sealing/lid_0.mp4" ></video>
           <div class="caption">The robot successfully seals the lid without making mistakes.</div>
         </div>
       </div>
@@ -237,27 +249,27 @@
       <div id="lid-carousel" class="carousel results-carousel">
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/takeout_box_packing/burger_4.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/takeout_box_packing/burger_4.mp4" ></video>
           <div class="caption">The robot succeeds packing a burger into a takeout box without making mistakes.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/takeout_box_packing/burger_0.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/takeout_box_packing/burger_0.mp4" ></video>
           <div class="caption">The robot detects failed attempts at the final stage, then recovers from them and correctly completes the task.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/takeout_box_packing/burger_1.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/takeout_box_packing/burger_1.mp4" ></video>
           <div class="caption">The robot recovers from incorrectly grasping the spatula.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/takeout_box_packing/burger_2.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/takeout_box_packing/burger_2.mp4" ></video>
           <div class="caption">The robot recovers from misaligned grasping spatula and securing tab failures.</div>
         </div>
         <div class="item">
           <video controls="" autoplay="" loop="" muted="" playsinline=""
-            src="./static/videos/takeout_box_packing/burger_3.mp4" poster="./resources/loading-icon.gif"></video>
+            src="./static/videos/takeout_box_packing/burger_3.mp4" ></video>
           <div class="caption">The robot recovers from failed grasping of the spatula, performs corrections for scooping the burger, detects and recovers from a failed attempt at the final stage.</div>
         </div>
       </div>
@@ -266,7 +278,7 @@
   <section class="section">
     <div class="container">
       <h2 class="title is-3" style="text-align: center;">Uncut Shirt Hanging Full Evaluation Recording (60 Trials, 2 Hours)</h2>
-      <p style="text-align: center; font-size: 0.9em; color: #666; margin-top: 10px;">Out of 60 evaluation trials, the robot achieved 48 full task successes, 80% task success rate.</p>
+      <h2 class="title is-5" style="text-align: center;">Out of 60 evaluation trials, the robot achieved 48 full task successes, 80% task success rate.</h2>
       <div style="display: flex; justify-content: center; margin: 20px 0;">
         <div style="position: relative; width: 100%; max-width: 1920px; height: 0; padding-bottom: 56.25%;">
           <iframe
@@ -288,7 +300,15 @@
         <h2 class="title">BibTeX</h2>
         <pre>
           <code>
-            placeholder for now
+            @misc{hu2025racrobotlearninglonghorizon,
+              title={RaC: Robot Learning for Long-Horizon Tasks by Scaling Recovery and Correction}, 
+              author={Zheyuan Hu and Robyn Wu and Naveen Enock and Jasmine Li and Riya Kadakia and Zackory Erickson and Aviral Kumar},
+              year={2025},
+              eprint={2509.07953},
+              archivePrefix={arXiv},
+              primaryClass={cs.RO},
+              url={https://arxiv.org/abs/2509.07953}, 
+            }
           </code>
         </pre>
       </div>
@@ -297,7 +317,7 @@
   <footer class="footer">
     <div class="container">
       <div class="content has-text-centered">
-        <a class="icon-link" href="./">
+        <a class="icon-link" href="https://arxiv.org/pdf/2509.07953">
           <i class="fas fa-file-pdf"></i>
         </a>
         <a class="icon-link" href="https://github.com/" class="external-link" disabled>
