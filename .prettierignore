@@ -1,0 +1,7 @@
+bun.lock
+dist/
+media/
+.svelte-kit/
+.github/
+static/
+*.md

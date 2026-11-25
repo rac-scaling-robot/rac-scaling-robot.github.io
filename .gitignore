@@ -1,4 +1,14 @@
-.DS_store
-.idea
+node_modules/
+dist/
+.svelte-kit/
+.wrangler/
+.DS_Store
+.idea/
+vite.config.*.timestamp-*
+
+# Videos and posters live in Cloudflare R2 (see README). Keep a local working copy here.
+media/
+
+# Local-only folders from the original site.
 pdf
 og

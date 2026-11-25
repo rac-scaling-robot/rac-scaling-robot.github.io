@@ -1,0 +1,32 @@
+{
+	"name": "rac-project-page",
+	"private": true,
+	"type": "module",
+	"description": "Project page for RaC (IEEE T-RO 2026). SvelteKit + TypeScript, prerendered to static HTML.",
+	"imports": {
+		"#lib/*": "./src/lib/*"
+	},
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"format": "prettier --write .",
+		"lint": "prettier --check .",
+		"media:sync": "bun scripts/sync-media.ts"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-static": "^4.0.1",
+		"@sveltejs/kit": "^3.4.0",
+		"@sveltejs/vite-plugin-svelte": "^7.3.2",
+		"@types/node": "^24",
+		"prettier": "^3.10.1",
+		"prettier-plugin-svelte": "^4.2.0",
+		"sirv": "^3.0.2",
+		"svelte": "^5.59.1",
+		"svelte-check": "^4.7.8",
+		"typescript": "^6.0.3",
+		"vite": "^8.3.8"
+	}
+}
