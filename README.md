@@ -15,7 +15,7 @@ src/lib/config.ts        site URL, media base URL, R2 bucket and prefix
 src/lib/enhance.ts       the only browser JS (inlined): section nav, video playback, YouTube facade, copy
 src/routes/              the page, 404 page, sitemap.xml
 src/app.css              design tokens, fonts, global element styles
-src/app.html             document shell (favicon, font preload, Google Analytics, currently off)
+src/app.html             document shell (favicon, font preload)
 static/                  copied as is: fonts, figures, favicon, social image, robots.txt, _headers
 media/                   git-ignored working copy of the R2 prefix (videos and posters)
 scripts/encode-video.ts  encodes one video into media/ (AV1 + H.264 + poster)

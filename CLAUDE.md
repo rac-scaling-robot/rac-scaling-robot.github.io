@@ -48,8 +48,8 @@ bun run media:sync   # upload media/ to R2 (needs `bunx wrangler login`)
   `[data-playlist]`, `[data-youtube]`, `button[data-copy]`, `svg[data-timeline]` (see its header).
 - `src/routes/` — `+page.svelte`, `404/+page.svelte`, `sitemap.xml/+server.ts`; `+layout.ts`
   sets `prerender = true` and `csr = false`.
-- `src/app.html` — favicon, font preload, Google Analytics G-CR91FGL27V (commented out, as on
-  the old site).
+- `src/app.html` — favicon and font preload. No analytics script: Cloudflare Web Analytics
+  (huzheyuan.io zone) counts visits at the edge.
 - `static/` — Newsreader woff2, figures (`images/*.webp`), the YouTube poster, social image,
   favicon (raster from the original `rac_icon.svg`), `robots.txt`, Cloudflare `_headers`.
 - `vite.config.ts` — Kit options (no `svelte.config.js` in Kit 3): CSS inlined, absolute

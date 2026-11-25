@@ -14,7 +14,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"format": "prettier --write .",
 		"lint": "prettier --check .",
-		"media:sync": "bun scripts/sync-media.ts"
+		"media:sync": "bun scripts/sync-media.ts",
+		"deploy": "vite build && bunx wrangler pages deploy dist --project-name rac-scaling-robot --branch main"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^4.0.1",
