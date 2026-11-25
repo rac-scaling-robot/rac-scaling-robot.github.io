@@ -22,7 +22,7 @@
 		})),
 		isPartOf: { '@type': 'Periodical', name: paper.venue },
 		datePublished: String(paper.year),
-		sameAs: [paper.arxiv],
+		sameAs: [`https://doi.org/${paper.doi}`, paper.arxiv],
 		keywords: paper.keywords.join(', ')
 	};
 	// Escape `<` so the JSON can never close its <script> element.
@@ -53,6 +53,10 @@
 	{/each}
 	<meta name="citation_journal_title" content={paper.venue} />
 	<meta name="citation_publication_date" content={String(paper.year)} />
+	<meta name="citation_volume" content={String(paper.volume)} />
+	<meta name="citation_firstpage" content={String(paper.pages[0])} />
+	<meta name="citation_lastpage" content={String(paper.pages[1])} />
+	<meta name="citation_doi" content={paper.doi} />
 	<meta name="citation_pdf_url" content={paper.pdf} />
 	<meta name="citation_arxiv_id" content={paper.arxiv.split('/').pop()} />
 

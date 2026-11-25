@@ -12,7 +12,7 @@
 
 <style>
 	.section {
-		margin-top: clamp(4.5rem, 9vw, 7.5rem);
+		margin-top: clamp(3.5rem, 7vw, 5.5rem);
 		padding-top: 1.5rem;
 		border-top: 1px solid var(--line);
 	}

@@ -34,7 +34,8 @@ bun run media:sync   # upload media/ to R2 (needs `bunx wrangler login`)
   (`VITE_MEDIA_BASE` overrides it for local preview); `av1Url`/`h264Url`/`posterUrl` and the
   `<source type>` strings.
 - `src/lib/components/` — `Nav` (sticky rail ≥64rem, sticky top bar below), `Hero`, `Section`,
-  `Protocol` + `ProtocolDiagram` (inline SVG of the two rules), `Player` (click-to-play video),
+  `Protocol` + `ProtocolDiagram` (inline SVG redrawn from the paper's "RaC-style data" funnel
+  figure; points are placed by hand and smoothed with `#lib/geometry.ts`), `Player` (click-to-play video),
   `Results` + `Figure` + `PriorWorkTable`, `Rollouts` + `Playlist` (one player per task),
   `Evaluation` (YouTube facade), `Citation`, `Footer`, `Seo`, `Icon` (inline SVG icons).
   Styles are scoped in each component; `src/app.css` holds tokens, `@font-face`, element

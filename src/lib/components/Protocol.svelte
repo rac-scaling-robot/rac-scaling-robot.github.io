@@ -15,9 +15,7 @@
 				{/each}
 			</ol>
 		</div>
-		<figure class="diagram">
-			<ProtocolDiagram />
-		</figure>
+		<ProtocolDiagram />
 	</div>
 
 	<Player video={protocol.video} label={protocol.videoLabel} />
@@ -28,13 +26,13 @@
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
 		gap: 2rem 3.5rem;
-		align-items: center;
+		align-items: start;
 		margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
 	}
 
 	@container (min-width: 52rem) {
 		.split {
-			grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+			grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
 		}
 	}
 
@@ -65,9 +63,5 @@
 		line-height: 1.2;
 		color: var(--accent);
 		font-variant-numeric: lining-nums;
-	}
-
-	.diagram {
-		max-width: 36rem;
 	}
 </style>

@@ -17,10 +17,14 @@ export const paper = {
 	affiliation: 'Carnegie Mellon University',
 	venue: 'IEEE Transactions on Robotics',
 	year: 2026,
+	volume: 42,
+	pages: [2843, 2860] as [first: number, last: number],
+	doi: '10.1109/TRO.2026.3706552',
 	pdf: 'https://arxiv.org/pdf/2509.07953',
 	arxiv: 'https://arxiv.org/abs/2509.07953',
-	/** Shown as "coming soon" while null. */
-	code: null as string | null,
+	code: 'https://github.com/Leo428/RAC',
+	/** Hugging Face collection of the policy checkpoints and datasets. */
+	release: 'https://huggingface.co/huzheyuan',
 	tldr: 'RaC achieves efficient performance scaling via a "mid-training" phase added after imitation pre-training. In this phase, RaC scales recovery & correction data via human intervention data collection. Learning on diverse skills data enables policies to reset, retry, and adapt, mitigating compounding errors in long-horizon manipulation tasks.',
 	/** Meta description and social previews: the first two sentences of the TL;DR. */
 	description:
@@ -32,13 +36,13 @@ export const paper = {
 		'Scaling Law',
 		'Robot Learning'
 	],
-	bibtex: `@misc{hu2025racrobotlearninglonghorizon,
+	bibtex: `@article{hu2026rac,
   title={RaC: Robot Learning for Long-Horizon Tasks by Scaling Recovery and Correction},
-  author={Zheyuan Hu and Robyn Wu and Naveen Enock and Jasmine Li and Riya Kadakia and Zackory Erickson and Aviral Kumar},
-  year={2025},
-  eprint={2509.07953},
-  archivePrefix={arXiv},
-  primaryClass={cs.RO},
-  url={https://arxiv.org/abs/2509.07953},
+  author={Hu, Zheyuan and Wu, Robyn and Enock, Naveen and Li, Jasmine and Kadakia, Riya and Erickson, Zackory and Kumar, Aviral},
+  journal={IEEE Transactions on Robotics},
+  volume={42},
+  pages={2843--2860},
+  year={2026},
+  doi={10.1109/TRO.2026.3706552}
 }`
 };

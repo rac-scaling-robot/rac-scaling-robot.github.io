@@ -1,6 +1,6 @@
 <!-- Inline stroke icons (24×24 grid). Decorative: always hidden from assistive technology. -->
 <script lang="ts">
-	type Name = 'pdf' | 'arxiv' | 'code' | 'cite' | 'play' | 'copy' | 'check' | 'up';
+	type Name = 'pdf' | 'arxiv' | 'code' | 'data' | 'cite' | 'play' | 'copy' | 'check' | 'up';
 
 	let { name, size = 18 }: { name: Name; size?: number } = $props();
 </script>
@@ -26,6 +26,9 @@
 		<path d="M14 3v5h5M9 12.5h6M9 16.5h4" />
 	{:else if name === 'code'}
 		<path d="m8.5 7-5 5 5 5m7-10 5 5-5 5" />
+	{:else if name === 'data'}
+		<ellipse cx="12" cy="5.5" rx="7" ry="2.5" />
+		<path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5" />
 	{:else if name === 'cite'}
 		<path
 			d="M10 11H6.5a1 1 0 0 1-1-1V7.5a1 1 0 0 1 1-1H9a1 1 0 0 1 1 1V12c0 2.6-1.4 4.4-4 5.5M18.5 11H15a1 1 0 0 1-1-1V7.5a1 1 0 0 1 1-1h2.5a1 1 0 0 1 1 1V12c0 2.6-1.4 4.4-4 5.5"
