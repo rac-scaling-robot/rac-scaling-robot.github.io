@@ -44,8 +44,12 @@ export function enhance() {
 				}
 			}
 		};
+		// The last section may be too short to reach the line: at the bottom of the page it wins.
+		const last = links[links.length - 1].hash.slice(1);
+		const atBottom = () => innerHeight + scrollY >= document.documentElement.scrollHeight - 2;
 		const spy = new IntersectionObserver(
 			(entries) => {
+				if (atBottom()) return mark(last);
 				for (const entry of entries) if (entry.isIntersecting) mark(entry.target.id);
 			},
 			{ rootMargin: '-30% 0px -69% 0px' }
@@ -54,15 +58,7 @@ export function enhance() {
 			const section = document.getElementById(link.hash.slice(1));
 			if (section) spy.observe(section);
 		}
-		// The last section may be too short to reach the line: mark it at the bottom of the page.
-		const last = links[links.length - 1].hash.slice(1);
-		addEventListener(
-			'scroll',
-			() => {
-				if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) mark(last);
-			},
-			{ passive: true }
-		);
+		addEventListener('scroll', () => atBottom() && mark(last), { passive: true });
 	}
 
 	// ---- Posters: fetch only when a video comes near the screen.
