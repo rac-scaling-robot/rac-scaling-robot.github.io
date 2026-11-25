@@ -11,6 +11,10 @@ only at build time (`csr = false`): the page ships no framework JS, just one inl
 Videos and posters are in the Cloudflare R2 bucket `huzheyuan-media` under `rac/`, served at
 https://media.huzheyuan.io/rac. Same stack and conventions as the author's homepage
 (`leo428.github.io`). The previous Nerfies/Bulma page is in git history before the redesign.
+Hosting: Cloudflare Pages project `rac-scaling-robot`, deployed by direct upload with
+`bun run deploy` (not Git-connected; pushing does not deploy). GitHub Pages
+(rac-scaling-robot.github.io) only serves a redirect to rac.huzheyuan.io, built by
+`.github/workflows/static.yml` on push to `main`.
 
 ## Commands
 

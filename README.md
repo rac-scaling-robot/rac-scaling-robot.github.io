@@ -88,5 +88,17 @@ git history, before the redesign).
 
 ## Deploy
 
-`bun run build` writes the static site to `dist/`. Host it on any static host (Cloudflare
-Pages reads `static/_headers` for cache headers).
+The site is the Cloudflare Pages project `rac-scaling-robot`, served at https://rac.huzheyuan.io.
+Deploys are direct uploads (the project is not connected to this repository):
+
+```sh
+bunx wrangler login          # once
+bun run deploy               # build, then upload dist/ as the production deployment
+```
+
+Pages reads `static/_headers` for cache headers. Visits are counted by Cloudflare Web Analytics
+on the huzheyuan.io zone; the page has no analytics script.
+
+The old address, https://rac-scaling-robot.github.io/, is still GitHub Pages: on every push to
+`main`, `.github/workflows/static.yml` publishes a page that redirects to the same path on
+rac.huzheyuan.io, so links in the paper and on arXiv keep working.
