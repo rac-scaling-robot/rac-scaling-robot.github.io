@@ -5,8 +5,8 @@
 //   bun scripts/encode-video.ts <input> <key> [options]
 //
 //   --width <px>        scale down to this width (default: keep); use about 2× the CSS width
-//   --av1-crf <n>       SVT-AV1 quality, lower is better (default 40)
-//   --h264-crf <n>      x264 quality, lower is better (default 24)
+//   --av1-crf <n>       SVT-AV1 quality, lower is better (default 47)
+//   --h264-crf <n>      x264 quality, lower is better (default 26; fractions allowed)
 //   --h264-copy         remux the source's H.264 stream instead (no --width): when the source
 //                       is already web H.264 at the output size, re-encoding only loses quality
 //   --poster-at <s>     poster frame time in seconds (default 0)
@@ -24,8 +24,8 @@ const { values, positionals } = parseArgs({
 	allowPositionals: true,
 	options: {
 		width: { type: 'string' },
-		'av1-crf': { type: 'string', default: '40' },
-		'h264-crf': { type: 'string', default: '24' },
+		'av1-crf': { type: 'string', default: '47' },
+		'h264-crf': { type: 'string', default: '26' },
 		'h264-copy': { type: 'boolean', default: false },
 		'poster-at': { type: 'string', default: '0' },
 		poster: { type: 'string' },
