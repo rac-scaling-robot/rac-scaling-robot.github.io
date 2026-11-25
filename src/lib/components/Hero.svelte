@@ -8,6 +8,9 @@
 	const [acronym, rest] = paper.title.split(/:\s+/);
 	const expansion = paper.acronymWords.join(' ');
 	const lead = rest.slice(0, rest.indexOf(expansion));
+
+	// The published version on IEEE Xplore, via its DOI; arXiv has the open-access copy.
+	const published = `https://doi.org/${paper.doi}`;
 </script>
 
 <section id="introduction" class="hero" aria-labelledby="title">
@@ -18,12 +21,12 @@
 	<p class="authors">{#each paper.authors as author, i (author.name)}{#if i > 0},{' '}{/if}<a href={author.url}>{author.name}</a>{/each}</p>
 	<p class="meta">
 		<span>{paper.affiliation}</span>
-		<a href="https://doi.org/{paper.doi}">{paper.venue}, {paper.year}</a>
+		<a href={published}>{paper.venue}, {paper.year}</a>
 	</p>
 
 	<ul class="links">
 		<li>
-			<a class="button primary" href={paper.pdf}><Icon name="pdf" />Paper</a>
+			<a class="button primary" href={published}><Icon name="journal" />Paper</a>
 		</li>
 		<li>
 			<a class="button" href={paper.arxiv}><Icon name="arxiv" />arXiv</a>

@@ -20,6 +20,7 @@ export const paper = {
 	volume: 42,
 	pages: [2843, 2860] as [first: number, last: number],
 	doi: '10.1109/TRO.2026.3706552',
+	/** Open-access PDF, for Google Scholar (`citation_pdf_url`). The Paper button links the DOI. */
 	pdf: 'https://arxiv.org/pdf/2509.07953',
 	arxiv: 'https://arxiv.org/abs/2509.07953',
 	code: 'https://github.com/Leo428/RAC',

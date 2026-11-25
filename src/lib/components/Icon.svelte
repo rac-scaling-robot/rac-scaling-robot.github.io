@@ -1,6 +1,6 @@
 <!-- Inline stroke icons (24×24 grid). Decorative: always hidden from assistive technology. -->
 <script lang="ts">
-	type Name = 'pdf' | 'arxiv' | 'code' | 'data' | 'cite' | 'play' | 'copy' | 'check' | 'up';
+	type Name = 'journal' | 'arxiv' | 'code' | 'data' | 'cite' | 'play' | 'copy' | 'check' | 'up';
 
 	let { name, size = 18 }: { name: Name; size?: number } = $props();
 </script>
@@ -18,9 +18,11 @@
 	aria-hidden="true"
 	focusable="false"
 >
-	{#if name === 'pdf'}
-		<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
-		<path d="M14 3v5h5M12 11v6m-2.75-2.75L12 17l2.75-2.75" />
+	{#if name === 'journal'}
+		<path
+			d="M12 6.5C10.5 5.2 8.2 4.5 4 4.5v13c4.2 0 6.5.7 8 2 1.5-1.3 3.8-2 8-2v-13c-4.2 0-6.5.7-8 2Z"
+		/>
+		<path d="M12 6.5v13" />
 	{:else if name === 'arxiv'}
 		<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
 		<path d="M14 3v5h5M9 12.5h6M9 16.5h4" />

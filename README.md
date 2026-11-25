@@ -44,8 +44,9 @@ VITE_MEDIA_BASE=/media bun run build && bun run preview
 Everything on the page comes from `src/lib/content/`. The type checker (`bun run check`) catches
 missing or misspelled fields.
 
-- **Links**: `paper.ts`: `pdf`, `arxiv`, `code` (GitHub), `release` (Hugging Face collection of
-  checkpoints and data) and `doi` (the venue line links to it; also used in the citation meta).
+- **Links**: `paper.ts`: `doi` (the Paper button and the venue line open IEEE Xplore through
+  it), `arxiv`, `pdf` (arXiv PDF, for Google Scholar), `code` (GitHub) and `release` (Hugging
+  Face collection of checkpoints and data).
 - **Rollout clips**: `rollouts.ts`. Each task is a playlist; the first clip is loaded in the
   player. Add a clip by encoding it (below) and adding `{ key, caption, duration }`.
 - **Figures**: put a WebP (about 2000 px wide, white background) in `static/images/` and
