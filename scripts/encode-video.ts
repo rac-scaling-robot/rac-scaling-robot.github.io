@@ -61,7 +61,9 @@ const probe = (file: string, entries: string) =>
 		.trim();
 
 const scale = values.width ? `scale=${values.width}:-2:flags=lanczos,` : '';
-const filters = `${scale}format=yuv420p`;
+// Square pixels: some editors write a slightly off sample aspect ratio (e.g. 1919:1920).
+const filters = `${scale}setsar=1,format=yuv420p`;
+const [sourceWidth, sourceHeight] = probe(input, 'stream=width,height').split(',');
 const common = ['-map', '0:v:0', '-an', '-sn', '-dn', '-map_metadata', '-1', '-vf', filters];
 // A keyframe every 10 s: the clips are mostly static scenes, and seeking stays quick.
 const gop = ['-g', '300'];
@@ -77,7 +79,8 @@ if (values['h264-copy']) {
 	if (values.width) throw new Error('--h264-copy cannot scale; drop --width');
 	// prettier-ignore
 	ffmpeg('-i', input, '-map', '0:v:0', '-an', '-sn', '-dn', '-map_metadata', '-1',
-		'-c:v', 'copy', '-movflags', '+faststart', out('h264.mp4'));
+		'-c:v', 'copy', '-bsf:v', 'h264_metadata=sample_aspect_ratio=1/1',
+		'-aspect', `${sourceWidth}:${sourceHeight}`, '-movflags', '+faststart', out('h264.mp4'));
 } else {
 	// prettier-ignore
 	ffmpeg('-i', input, ...common,
