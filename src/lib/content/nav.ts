@@ -4,8 +4,8 @@ import type { Section } from '#lib/types.js';
 export const sections: Section[] = [
 	{ id: 'introduction', nav: 'Overview' },
 	{ id: 'data-collection', nav: 'Protocol' },
-	{ id: 'results', nav: 'Results' },
 	{ id: 'rollouts', nav: 'Rollouts' },
 	{ id: 'evaluation', nav: 'Uncut evaluation' },
+	{ id: 'results', nav: 'Results' },
 	{ id: 'citation', nav: 'Citation' }
 ];

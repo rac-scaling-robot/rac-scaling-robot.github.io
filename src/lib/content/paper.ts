@@ -23,8 +23,9 @@ export const paper = {
 	pdf: 'https://arxiv.org/pdf/2509.07953',
 	arxiv: 'https://arxiv.org/abs/2509.07953',
 	code: 'https://github.com/Leo428/RAC',
-	/** Hugging Face collection of the policy checkpoints and datasets. */
-	release: 'https://huggingface.co/huzheyuan',
+	/** Hugging Face collection of the checkpoints and datasets (the id-based URL survives renames). */
+	release:
+		'https://huggingface.co/collections/huzheyuan/rac-scaling-recovery-and-correction-6b074e26a1c05ba229d8274b',
 	tldr: 'RaC achieves efficient performance scaling via a "mid-training" phase added after imitation pre-training. In this phase, RaC scales recovery & correction data via human intervention data collection. Learning on diverse skills data enables policies to reset, retry, and adapt, mitigating compounding errors in long-horizon manipulation tasks.',
 	/** Meta description and social previews: the first two sentences of the TL;DR. */
 	description:

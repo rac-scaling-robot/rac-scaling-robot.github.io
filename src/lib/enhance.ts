@@ -17,7 +17,8 @@
  *   `data-label`: choosing one loads it into the video; at the end the next clip plays.
  * - `[data-youtube]` (embed URL) holds a link that is replaced by the YouTube embed on click.
  * - `button[data-copy]` (hidden) copies the text of the element with that id.
- * - `[data-reveal]` elements below the fold get the `pending` class until scrolled into view.
+ * - `svg[data-timeline]` holds looping SMIL animations: they run only while the figure is on
+ *   screen, and are removed with reduced motion (the base attributes are the finished figure).
  */
 export function enhance() {
 	const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -189,22 +190,18 @@ export function enhance() {
 		});
 	}
 
-	// ---- One-time reveal of elements below the fold.
-	if (!reduceMotion) {
-		const revealer = new IntersectionObserver(
-			(entries) => {
-				for (const { target, isIntersecting } of entries) {
-					if (!isIntersecting) continue;
-					target.classList.remove('pending');
-					revealer.unobserve(target);
-				}
-			},
-			{ rootMargin: '0px 0px -15% 0px', threshold: 0.2 }
-		);
-		for (const element of document.querySelectorAll('[data-reveal]')) {
-			if (element.getBoundingClientRect().top < innerHeight) continue;
-			element.classList.add('pending');
-			revealer.observe(element);
+	// ---- Animated figures: play from the start once on screen, pause while off it.
+	for (const svg of document.querySelectorAll<SVGSVGElement>('svg[data-timeline]')) {
+		if (reduceMotion) {
+			// Without its animations the figure shows its finished state.
+			for (const animation of svg.querySelectorAll('animate, animateMotion')) animation.remove();
+			continue;
 		}
+		svg.pauseAnimations();
+		svg.setCurrentTime(0);
+		new IntersectionObserver(
+			([entry]) => (entry.isIntersecting ? svg.unpauseAnimations() : svg.pauseAnimations()),
+			{ threshold: 0.6 }
+		).observe(svg);
 	}
 }

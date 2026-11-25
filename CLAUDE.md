@@ -35,15 +35,17 @@ bun run media:sync   # upload media/ to R2 (needs `bunx wrangler login`)
   `<source type>` strings.
 - `src/lib/components/` — `Nav` (sticky rail ≥64rem, sticky top bar below), `Hero`, `Section`,
   `Protocol` + `ProtocolDiagram` (inline SVG redrawn from the paper's "RaC-style data" funnel
-  figure; points are placed by hand and smoothed with `#lib/geometry.ts`), `Player` (click-to-play video),
-  `Results` + `Figure` + `PriorWorkTable`, `Rollouts` + `Playlist` (one player per task),
-  `Evaluation` (YouTube facade), `Citation`, `Footer`, `Seo`, `Icon` (inline SVG icons).
+  figure; points are placed by hand and smoothed with `#lib/geometry.ts`; a looping SMIL
+  animation built with `#lib/timeline.ts`, whose base attributes are the finished figure),
+  `Player` (click-to-play video), `Rollouts` + `Playlist` (one player per task), `Evaluation`
+  (YouTube facade), `Results` + `Figure` + `PriorWorkTable`, `Citation`, `Footer`, `Seo`, `Icon`
+  (inline SVG icons). Page order is in `+page.svelte` and `nav.ts` (keep them in step).
   Styles are scoped in each component; `src/app.css` holds tokens, `@font-face`, element
   defaults and `.wrap` / `.prose` / `.visually-hidden`.
 - `src/lib/enhance.ts` — the only client-side code. `+page.svelte` inlines it with
   `Function.prototype.toString()`, so it must stay self-contained (no imports, no outer
   variables). Markup hooks: `[data-spy]`, `[data-player]`, `video[data-autoplay]`,
-  `[data-playlist]`, `[data-youtube]`, `button[data-copy]`, `[data-reveal]` (see its header).
+  `[data-playlist]`, `[data-youtube]`, `button[data-copy]`, `svg[data-timeline]` (see its header).
 - `src/routes/` — `+page.svelte`, `404/+page.svelte`, `sitemap.xml/+server.ts`; `+layout.ts`
   sets `prerender = true` and `csr = false`.
 - `src/app.html` — favicon, font preload, Google Analytics G-CR91FGL27V (commented out, as on
@@ -59,7 +61,7 @@ bun run media:sync   # upload media/ to R2 (needs `bunx wrangler login`)
   is `$app/env`.
 - With `csr = false`, component `<script>` blocks run only at build time. Put browser behavior
   in `#lib/enhance.ts`. Classes or attributes set only by it must be written `:global(...)` in
-  component styles (e.g. `.pending`, `[aria-current]` in `Nav`).
+  component styles (e.g. `[aria-current]` in `Nav`).
 - Svelte keeps one space for whitespace between inline nodes; keep inline runs (title, author
   list, captions) on one line with `<!-- prettier-ignore -->`.
 

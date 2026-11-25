@@ -1,14 +1,19 @@
 <!--
-	Redrawn from the paper's figure "RaC-style data and trained policy". States form a funnel from
-	the initial states through each sub-task's completion set to full task completion (expert
-	demonstrations as dotted grey paths). An on-policy rollout leaves the funnel and fails; the
-	operator recovers back to a familiar state, then corrects to finish the sub-task, where the
-	episode ends. A policy trained on this data recovers by itself when deployed (dashed).
-	All geometry is computed at build time; once scrolled into view the steps draw in order
-	(`data-reveal`, see #lib/enhance.ts).
+	Redrawn from the paper's figure "RaC-style data and trained policy", animated. States form a
+	funnel from the initial states through each sub-task's completion set to full task completion
+	(expert demonstrations as dotted grey paths). The loop plays the two phases:
+	1. Collecting data: a policy rollout (orange) leaves the funnel and fails; the operator
+	   recovers to a familiar state (green), then corrects to finish the sub-task (blue), where the
+	   episode ends. A dot marks the robot's state; its color says who is in control.
+	2. Deploying the policy trained on this data (purple, dashed): it drifts out twice, recovers by
+	   itself each time, and completes the task.
+	The animation is SMIL built at build time (#lib/timeline.ts); every element's base attributes
+	are the finished figure. #lib/enhance.ts runs it only while on screen, and removes it for
+	reduced motion (`data-timeline`).
 -->
 <script lang="ts">
 	import { along, curve, type Point } from '#lib/geometry.js';
+	import { track, type Frame } from '#lib/timeline.js';
 
 	// The funnel: initial states, two sub-task completion sets and full task completion.
 	const sets = {
@@ -142,6 +147,93 @@
 		correction: [correction.length - 1].map((i) => along(correction, i)),
 		deployed: [1, 3, 9, 13, 19, 23, 26, 29].map((i) => along(deployed, i))
 	};
+
+	// ---- Timeline (seconds in a 15 s loop).
+	const LOOP = 15;
+	const fadeIn = (at: number): Frame[] => [
+		[at, 0],
+		[at + 0.3, 1, true]
+	];
+	const pop = (at: number, r: number): Frame[] => [
+		[at, 0],
+		[at + 0.25, r, true]
+	];
+	/** A stroke drawn from start to end over [from, to] (mask dash offset, path length 1). */
+	const drawn = (from: number, to: number): Frame[] => [
+		[from, 1],
+		[to, 0, true]
+	];
+	/** The state dot: shown while it travels its path over [from, to]. */
+	const travel = (from: number, to: number) => ({
+		motion: track(
+			LOOP,
+			[
+				[from, 0],
+				[to, 1, true]
+			],
+			'keyPoints'
+		),
+		opacity: track(LOOP, [
+			[from - 0.15, 0],
+			[from, 1],
+			[to, 1],
+			[to + 0.2, 0]
+		])
+	});
+
+	/** A stroke revealed along its path over [from, to] while the state dot travels it. */
+	const stroke = (points: Point[], from: number, to: number) => ({
+		d: curve(points),
+		reveal: track(LOOP, drawn(from, to)),
+		...travel(from, to)
+	});
+	const strokes = {
+		rollout: stroke(rollout, 0.5, 2.2),
+		recovery: stroke(recovery, 2.7, 3.9),
+		correction: stroke(correction, 4.2, 5.4),
+		deployed: stroke(deployed, 7, 11.4)
+	};
+
+	const timeline = {
+		// Everything fades out at the end of the loop, then the strokes draw again.
+		traces: track(LOOP, [
+			[14.3, 1],
+			[LOOP, 0]
+		]),
+		collecting: track(LOOP, [
+			[0.1, 0],
+			[0.4, 1, true],
+			[6.6, 1],
+			[6.9, 0, true]
+		]),
+		deploying: track(LOOP, [
+			[6.8, 0],
+			[7.1, 1, true],
+			[12, 1],
+			[12.3, 0, true]
+		]),
+		// The collected data steps back while the deployed policy runs.
+		collection: track(LOOP, [
+			[6.6, 1],
+			[7, 0.28, true],
+			[12, 0.28],
+			[12.4, 1, true]
+		]),
+		rolloutLabel: track(LOOP, fadeIn(1.2)),
+		failure: track(LOOP, pop(2.2, 7.5)),
+		failureLabel: track(LOOP, fadeIn(2.3)),
+		recoveryLabel: track(LOOP, fadeIn(3)),
+		familiar: track(LOOP, pop(3.9, 4.5)),
+		correctionLabel: track(LOOP, fadeIn(4.6)),
+		end: track(LOOP, fadeIn(5.4)),
+		recoveryBehavior: track(LOOP, fadeIn(8.4)),
+		deployedLabel: track(LOOP, fadeIn(9.8)),
+		success: track(LOOP, [
+			[11.35, 0],
+			[11.6, 1, true],
+			[12.6, 0, true]
+		])
+	};
 </script>
 
 <figure class="figure">
@@ -150,7 +242,7 @@
 		viewBox="0 0 670 472"
 		role="img"
 		aria-labelledby="diagram-title diagram-desc"
-		data-reveal
+		data-timeline
 	>
 		<title id="diagram-title">RaC-style intervention data and the policy it trains</title>
 		<desc id="diagram-desc">
@@ -162,10 +254,24 @@
 			the full task.
 		</desc>
 
+		<defs>
+			<!-- Each stroke is revealed by a wide copy of its path drawn along it. -->
+			{#each Object.entries(strokes) as [id, { d, reveal }] (id)}
+				<mask id="draw-{id}" maskUnits="userSpaceOnUse" x="-20" y="-20" width="710" height="512">
+					<path class="reveal" {d} pathLength="1">
+						<animate attributeName="stroke-dashoffset" {...reveal} />
+					</path>
+				</mask>
+			{/each}
+		</defs>
+
 		<g class="funnel">
 			{#each Object.values(sets) as set, i (i)}
 				<ellipse class="set" {...set} />
 			{/each}
+			<ellipse class="success" {...sets.full} opacity="0">
+				<animate attributeName="opacity" {...timeline.success} />
+			</ellipse>
 			{#each expert as d, i (i)}
 				<path class="expert" {d} />
 			{/each}
@@ -187,56 +293,105 @@
 			<text class="label" x="566" y="322">complete</text>
 		</g>
 
-		<g class="step rollout" style:--d="0s" style:--t="0.8s">
-			<path class="draw" d={curve(rollout)} pathLength="1" />
-			{#each arrows.rollout as transform, i (i)}
-				<path class="head" d={head} {transform} />
-			{/each}
-			<text class="label" x="228" y="102">On-policy</text>
-			<text class="label" x="228" y="122">rollout</text>
-		</g>
+		<g class="traces">
+			<animate attributeName="opacity" {...timeline.traces} />
 
-		<g class="step failure" style:--d="0.8s" style:--t="0.3s">
-			<circle class="pop" cx={failure[0]} cy={failure[1]} r="7.5" />
-			<text class="label pop" x={failure[0] + 8} y="36" text-anchor="middle">failure</text>
-		</g>
-
-		<g class="step recovery" style:--d="1.15s" style:--t="0.7s">
-			<path class="draw" d={curve(recovery)} pathLength="1" />
-			{#each arrows.recovery as transform, i (i)}
-				<path class="head" d={head} {transform} />
-			{/each}
-			<text class="label strong" transform="translate(139 77) rotate(-47)" text-anchor="middle">
-				recovery
+			<text class="phase" x="0" y="16" opacity="0">
+				<animate attributeName="opacity" {...timeline.collecting} />
+				1 · Collecting RaC data
 			</text>
-		</g>
+			<text class="phase" x="0" y="16" opacity="0">
+				<animate attributeName="opacity" {...timeline.deploying} />
+				2 · Deploying the trained policy
+			</text>
 
-		<g class="step familiar" style:--d="1.8s" style:--t="0.2s">
-			<circle class="pop" cx={familiar[0]} cy={familiar[1]} r="4.5" />
-		</g>
+			<g class="collection">
+				<animate attributeName="opacity" {...timeline.collection} />
 
-		<g class="step correction" style:--d="1.95s" style:--t="0.8s">
-			<path class="draw" d={curve(correction)} pathLength="1" />
-			{#each arrows.correction as transform, i (i)}
-				<path class="head" d={head} {transform} />
-			{/each}
-			<text class="label strong" x="205" y="206" text-anchor="middle">correction</text>
-		</g>
+				<g class="rollout">
+					<g mask="url(#draw-rollout)">
+						<path class="stroke" d={strokes.rollout.d} />
+						{#each arrows.rollout as transform, i (i)}
+							<path class="head" d={head} {transform} />
+						{/each}
+					</g>
+					<g>
+						<animate attributeName="opacity" {...timeline.rolloutLabel} />
+						<text class="label" x="228" y="102">On-policy</text>
+						<text class="label" x="228" y="122">rollout</text>
+					</g>
+				</g>
 
-		<g class="step end" style:--d="2.75s" style:--t="0.2s">
-			<path class="pop" d="M{end[0] - 6} {end[1] - 6}l12 12m0-12-12 12" />
-		</g>
+				<g class="failure">
+					<circle cx={failure[0]} cy={failure[1]} r="7.5">
+						<animate attributeName="r" {...timeline.failure} />
+					</circle>
+					<text class="label" x={failure[0] + 8} y="36" text-anchor="middle">
+						<animate attributeName="opacity" {...timeline.failureLabel} />
+						failure
+					</text>
+				</g>
 
-		<g class="step deployed" style:--d="3.2s" style:--t="2s">
-			<g class="wipe">
-				<path class="dashed" d={curve(deployed)} />
-				{#each arrows.deployed as transform, i (i)}
-					<path class="head" d={head} {transform} />
-				{/each}
+				<g class="recovery">
+					<g mask="url(#draw-recovery)">
+						<path class="stroke" d={strokes.recovery.d} />
+						{#each arrows.recovery as transform, i (i)}
+							<path class="head" d={head} {transform} />
+						{/each}
+					</g>
+					<text class="label strong" transform="translate(139 77) rotate(-47)" text-anchor="middle">
+						<animate attributeName="opacity" {...timeline.recoveryLabel} />
+						recovery
+					</text>
+				</g>
+
+				<circle class="familiar" cx={familiar[0]} cy={familiar[1]} r="4.5">
+					<animate attributeName="r" {...timeline.familiar} />
+				</circle>
+
+				<g class="correction">
+					<g mask="url(#draw-correction)">
+						<path class="stroke" d={strokes.correction.d} />
+						{#each arrows.correction as transform, i (i)}
+							<path class="head" d={head} {transform} />
+						{/each}
+					</g>
+					<text class="label strong" x="205" y="206" text-anchor="middle">
+						<animate attributeName="opacity" {...timeline.correctionLabel} />
+						correction
+					</text>
+				</g>
+
+				<path class="end" d="M{end[0] - 6} {end[1] - 6}l12 12m0-12-12 12">
+					<animate attributeName="opacity" {...timeline.end} />
+				</path>
 			</g>
-			<text class="label strong pop" x="438" y="414">Deployed policy rollout</text>
-			<path class="pointer pop" d="m134 441 8-15" />
-			<text class="label pop" x="70" y="460">Recovery behavior</text>
+
+			<g class="deployed">
+				<g mask="url(#draw-deployed)">
+					<path class="stroke dashed" d={strokes.deployed.d} />
+					{#each arrows.deployed as transform, i (i)}
+						<path class="head" d={head} {transform} />
+					{/each}
+				</g>
+				<g>
+					<animate attributeName="opacity" {...timeline.recoveryBehavior} />
+					<path class="pointer" d="m134 441 8-15" />
+					<text class="label" x="70" y="460">Recovery behavior</text>
+				</g>
+				<text class="label strong" x="438" y="414">
+					<animate attributeName="opacity" {...timeline.deployedLabel} />
+					Deployed policy rollout
+				</text>
+			</g>
+
+			<!-- The robot's state, colored by who is in control. -->
+			{#each Object.entries(strokes) as [id, { d, motion, opacity }] (id)}
+				<circle class="state {id}" r="6" opacity="0">
+					<animateMotion path={d} {...motion} />
+					<animate attributeName="opacity" {...opacity} />
+				</circle>
+			{/each}
 		</g>
 	</svg>
 	<figcaption>
@@ -263,13 +418,6 @@
 		--familiar: #f3b51b;
 	}
 
-	.diagram {
-		display: block;
-		width: 100%;
-		height: auto;
-		overflow: visible;
-	}
-
 	@media (prefers-color-scheme: dark) {
 		.figure {
 			--set: #1f2a3b;
@@ -280,11 +428,24 @@
 		}
 	}
 
+	.diagram {
+		display: block;
+		width: 100%;
+		height: auto;
+		overflow: visible;
+	}
+
 	.set {
 		fill: var(--set);
 		stroke: var(--ink-2);
 		stroke-width: 1;
 		stroke-dasharray: 3 2.5;
+	}
+
+	.success {
+		fill: color-mix(in srgb, var(--deployed) 35%, transparent);
+		stroke: var(--deployed);
+		stroke-width: 2;
 	}
 
 	.expert {
@@ -300,31 +461,45 @@
 		stroke-width: 2;
 	}
 
-	.label {
+	.reveal {
+		fill: none;
+		stroke: #fff;
+		stroke-width: 16;
+		stroke-dasharray: 1 1;
+	}
+
+	.label,
+	.phase {
 		font-family: var(--sans);
 		font-size: 15.5px;
 		fill: var(--ink);
+	}
+
+	.phase {
+		font-size: 14.5px;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		fill: var(--ink-2);
 	}
 
 	.strong {
 		font-weight: 650;
 	}
 
-	.draw,
-	.dashed {
+	.stroke {
 		fill: none;
+		stroke: var(--c);
 		stroke-width: 2.75;
 		stroke-linecap: round;
 		stroke-linejoin: round;
 	}
 
-	/* `pathLength="1"`: a single dash the length of the path, so it can be drawn in. */
-	.draw {
-		stroke-dasharray: 1;
-	}
-
 	.dashed {
 		stroke-dasharray: 7 6;
+	}
+
+	.head {
+		fill: var(--c);
 	}
 
 	.rollout {
@@ -343,38 +518,29 @@
 		--c: var(--deployed);
 	}
 
-	.step .draw,
-	.step .dashed {
-		stroke: var(--c);
-	}
-
-	.step .head {
-		fill: var(--c);
-	}
-
-	.step .strong {
-		fill: var(--c);
-	}
-
+	.strong,
 	.deployed .label {
-		fill: var(--deployed);
+		fill: var(--c);
 	}
 
-	.failure circle {
-		fill: var(--fail);
+	.state {
+		fill: var(--c);
+		stroke: var(--bg);
+		stroke-width: 2.5;
 	}
 
+	.failure circle,
 	.failure .label {
 		fill: var(--fail);
 	}
 
-	.familiar circle {
+	.familiar {
 		fill: var(--familiar);
 		stroke: var(--ink);
 		stroke-width: 1.25;
 	}
 
-	.end path,
+	.end,
 	.pointer {
 		fill: none;
 		stroke: var(--ink);
@@ -453,36 +619,9 @@
 		.label {
 			font-size: 18px;
 		}
-	}
 
-	/* Draw-in, once, in story order (enhance.ts adds .pending while the figure is below the
-	   fold). Each step starts at --d; strokes take --t, then arrowheads and labels fade in. */
-	.draw {
-		transition: stroke-dashoffset var(--t) cubic-bezier(0.45, 0, 0.25, 1) var(--d);
-	}
-
-	.step .head,
-	.step .label,
-	.pop {
-		transition: opacity 0.35s ease calc(var(--d) + var(--t) * 0.6);
-	}
-
-	.wipe {
-		clip-path: inset(-5% -5% -5% -5%);
-		transition: clip-path var(--t) cubic-bezier(0.45, 0, 0.25, 1) var(--d);
-	}
-
-	.diagram:global(.pending) .draw {
-		stroke-dashoffset: 1;
-	}
-
-	.diagram:global(.pending) .step .head,
-	.diagram:global(.pending) .step .label,
-	.diagram:global(.pending) .pop {
-		opacity: 0;
-	}
-
-	.diagram:global(.pending) .wipe {
-		clip-path: inset(-5% 105% -5% -5%);
+		.phase {
+			font-size: 17px;
+		}
 	}
 </style>

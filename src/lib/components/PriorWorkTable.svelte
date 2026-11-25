@@ -49,14 +49,14 @@
 		border-top: 2px solid var(--ink);
 		border-bottom: 2px solid var(--ink);
 		font-family: var(--serif);
-		font-size: 1.0625rem;
-		line-height: 1.4;
+		font-size: 0.9688rem;
+		line-height: 1.35;
 		font-variant-numeric: lining-nums tabular-nums;
 	}
 
 	th,
 	td {
-		padding: 0.7rem 0.9rem;
+		padding: 0.4rem 0.7rem;
 		text-align: left;
 		vertical-align: top;
 	}
@@ -75,7 +75,7 @@
 	thead th {
 		border-bottom: 1px solid var(--ink);
 		font-family: var(--sans);
-		font-size: 0.875rem;
+		font-size: 0.8125rem;
 		font-weight: 600;
 		white-space: nowrap;
 	}
@@ -89,7 +89,9 @@
 		border-top: 1px solid var(--line);
 	}
 
-	.num {
+	/* Only the long "Training Data Size" column wraps; every other cell stays on one line. */
+	.num,
+	td:nth-child(2) {
 		white-space: nowrap;
 	}
 
@@ -106,10 +108,10 @@
 	}
 
 	figcaption {
-		max-width: var(--measure);
-		margin-top: 0.9rem;
+		max-width: 52rem;
+		margin-top: 0.7rem;
 		color: var(--ink-2);
-		font-size: 0.9375rem;
+		font-size: 0.875rem;
 		line-height: 1.5;
 	}
 
@@ -141,7 +143,7 @@
 		}
 
 		tbody tr {
-			padding: 0.9rem 1rem;
+			padding: 0.6rem 0.8rem;
 			border-top: 1px solid var(--line);
 		}
 
@@ -164,26 +166,28 @@
 		}
 
 		tbody th {
-			margin-bottom: 0.35rem;
-			font-size: 1.1875rem;
+			margin-bottom: 0.25rem;
+			font-size: 1.0625rem;
 			white-space: normal;
 		}
 
 		td {
 			display: grid;
-			grid-template-columns: 7.5rem minmax(0, 1fr);
-			gap: 0.75rem;
+			grid-template-columns: 6.75rem minmax(0, 1fr);
+			gap: 0.6rem;
+			line-height: 1.3;
 		}
 
 		td::before {
 			content: attr(data-label);
 			color: var(--ink-3);
 			font-family: var(--sans);
-			font-size: 0.8125rem;
-			line-height: 1.8;
+			font-size: 0.75rem;
+			line-height: 1.75;
 		}
 
-		.num {
+		.num,
+		td:nth-child(2) {
 			white-space: normal;
 		}
 
