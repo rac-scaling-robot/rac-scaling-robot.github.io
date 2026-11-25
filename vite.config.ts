@@ -29,7 +29,13 @@ export default defineConfig({
 			// Inline all CSS into the HTML: no render-blocking stylesheet request.
 			inlineStyleThreshold: Infinity,
 			// Absolute /_app/ URLs, so 404.html also works when served for nested paths.
-			paths: { relative: false }
+			paths: { relative: false },
+			prerender: {
+				// A build with VITE_MEDIA_BASE=/media links to local media, which is not part of it.
+				handleHttpError: ({ path, message }) => {
+					if (!path.startsWith('/media/')) throw new Error(message);
+				}
+			}
 		}),
 		localMedia()
 	]
