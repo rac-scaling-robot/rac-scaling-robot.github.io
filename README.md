@@ -100,6 +100,8 @@ bun run deploy               # build, then upload dist/ as the production deploy
 Pages reads `static/_headers` for cache headers. Visits are counted by Cloudflare Web Analytics
 on the huzheyuan.io zone; the page has no analytics script.
 
-The old address, https://rac-scaling-robot.github.io/, is still GitHub Pages: on every push to
-`main`, `.github/workflows/static.yml` publishes a page that redirects to the same path on
-rac.huzheyuan.io, so links in the paper and on arXiv keep working.
+The old address, https://rac-scaling-robot.github.io/, is still GitHub Pages. It serves only
+the root `index.html` and its copy `404.html`, which redirect to the same path and anchor on
+rac.huzheyuan.io, so links in the paper and on arXiv keep working. Both GitHub's branch deploy
+(`.nojekyll` turns off Jekyll) and `.github/workflows/static.yml` publish those files on every
+push to `main`.

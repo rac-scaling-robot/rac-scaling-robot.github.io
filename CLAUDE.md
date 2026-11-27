@@ -13,8 +13,10 @@ https://media.huzheyuan.io/rac. Same stack and conventions as the author's homep
 (`leo428.github.io`). The previous Nerfies/Bulma page is in git history before the redesign.
 Hosting: Cloudflare Pages project `rac-scaling-robot`, deployed by direct upload with
 `bun run deploy` (not Git-connected; pushing does not deploy). GitHub Pages
-(rac-scaling-robot.github.io) only serves a redirect to rac.huzheyuan.io, built by
-`.github/workflows/static.yml` on push to `main`.
+(rac-scaling-robot.github.io) only serves a redirect to rac.huzheyuan.io: the root `index.html`
+and its copy `404.html` (keep them identical), published from `main` by the repository's
+branch source (`.nojekyll` turns off Jekyll) and by `.github/workflows/static.yml`. They are not
+part of the SvelteKit build.
 
 ## Commands
 

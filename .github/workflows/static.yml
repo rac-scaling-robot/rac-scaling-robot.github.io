@@ -1,6 +1,11 @@
 # The project page moved to https://rac.huzheyuan.io (Cloudflare Pages; see README "Deploy").
-# GitHub Pages now serves only a redirect, so old links (arXiv, the paper, social posts) to
-# https://rac-scaling-robot.github.io/ keep working. Any path, query and #anchor carry over.
+# GitHub Pages now serves only the redirect page in index.html (and its copy 404.html), so old
+# links to https://rac-scaling-robot.github.io/ keep working with their path and #anchor.
+#
+# The repository's Pages source is still "Deploy from a branch" (main, root), which publishes
+# those files as they are (.nojekyll turns off Jekyll). This workflow publishes the same two
+# files, so the result is the same whichever deploy finishes last, and it keeps working if the
+# source is switched to "GitHub Actions".
 name: Redirect GitHub Pages to rac.huzheyuan.io
 
 on:
@@ -24,25 +29,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Write the redirect page
-        run: |
-          mkdir _site
-          cat > _site/index.html <<'HTML'
-          <!doctype html>
-          <html lang="en">
-          <head>
-          <meta charset="utf-8">
-          <title>RaC: Robot Learning for Long-Horizon Tasks by Scaling Recovery and Correction</title>
-          <link rel="canonical" href="https://rac.huzheyuan.io/">
-          <script>location.replace('https://rac.huzheyuan.io' + location.pathname + location.search + location.hash);</script>
-          <meta http-equiv="refresh" content="0; url=https://rac.huzheyuan.io/">
-          </head>
-          <body>
-          <p>The RaC project page has moved to <a href="https://rac.huzheyuan.io/">rac.huzheyuan.io</a>.</p>
-          </body>
-          </html>
-          HTML
-          cp _site/index.html _site/404.html
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Collect the redirect pages
+        run: mkdir _site && cp index.html 404.html _site/
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
